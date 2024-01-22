@@ -18,12 +18,14 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useTodosStore } from '../stores/useTodoStore'
 import  TodoItem  from '../components/TodoItem.vue'
+import { useTodosStore } from '../stores/useTodoStore'
 
-const newTodo = ref('')
 const todosStore = useTodosStore()
 const todos = todosStore.todos
+const newTodo = ref('')
+
+// todosStore.getTodos();
 
 const addTodo = () => {
   todosStore.addTodo(newTodo.value)
@@ -66,28 +68,5 @@ const markAsUndone = (index: number) => {
 .todo-list {
   width: 100%;
   list-style: none;
-}
-
-.todo-item {
-  background: #f9f9f9;
-  margin-bottom: 3px;
-  border-radius: 4px;
-}
-
-.done {
-  text-decoration: line-through;
-}
-
-.buttons{
-  display: flex;
-  justify-content: end;
-}
-
-.done-button{
-  margin-right: 5px;
-}
-
-.text-right {
-  text-align: right;
 }
 </style>
