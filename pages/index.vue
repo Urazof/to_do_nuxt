@@ -5,23 +5,13 @@
       <v-btn class="add-button" small @click="addTodo">Add</v-btn>
     </div>
     <v-list class="todo-list">
-      <v-list-item class="todo-item" v-for="(todo, index) in todos" :key="index">
-        <v-row no-gutters>
-          <v-col cols="7">
-            <v-list-item-content>
-              <span :class="{ 'done': todo.isDone }">{{ todo.text }}</span>
-            </v-list-item-content>
-          </v-col>
-          <v-col cols="5" class="text-right">
-            <v-list-item-action class="buttons">
-              <v-btn class="done-button" small @click="todo.isDone ? markAsUndone(index) : markAsDone(index)" :color="todo.isDone ? 'grey' : 'success'">
-                {{ todo.isDone ? 'Undone' : 'Done' }}
-              </v-btn>
-              <v-btn small @click="removeTodo(index)" >Remove</v-btn>
-            </v-list-item-action>
-          </v-col>
-        </v-row>
-      </v-list-item>
+      <TodoItem
+          v-for="(todo, index) in todos"
+          :key="index"
+          :todo="todo"
+          @toggleDone="todo.isDone ? markAsUndone(index) : markAsDone(index)"
+          @remove="removeTodo(index)"
+      />
     </v-list>
   </div>
 </template>

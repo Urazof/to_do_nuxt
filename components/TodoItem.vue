@@ -1,5 +1,5 @@
 <template>
-  <v-row no-gutters>
+  <v-row no-gutters class="todo-row">
     <v-col cols="7">
       <v-list-item-content>
         <span :class="{ 'done': todo.isDone }">{{ todo.text }}</span>
@@ -27,6 +27,9 @@ export default {
 <style scoped>
 .text-right {
   text-align: right;
+}
+.todo-row{
+  padding: 5px 0;
 }
 
 .buttons{
