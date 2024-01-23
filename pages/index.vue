@@ -25,7 +25,7 @@ const todosStore = useTodosStore()
 const todos = todosStore.todos
 const newTodo = ref('')
 
-// todosStore.getTodos();
+todosStore.getTodos();
 
 const addTodo = () => {
   todosStore.addTodo(newTodo.value)

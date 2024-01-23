@@ -16,7 +16,7 @@ export default class Api {
 
     public async createTodo(todo: Todo) {
         try {
-            const response = await axios.post(`${this.url}/todos`, todo);
+            const response = await axios.post(`${this.url}/api/todos`, todo);
             return response.data;
         } catch (error) {
             console.error(`Error creating todo: ${error}`);
@@ -26,7 +26,7 @@ export default class Api {
 
     public async getTodos() {
         try {
-            const response = await axios.get(`${this.url}/todos`);
+            const response = await axios.get(`${this.url}/api/todos`);
             return response.data;
         } catch (error) {
             console.error(`Error getting todos: ${error}`);
@@ -36,7 +36,7 @@ export default class Api {
 
     public async updateTodo(index: number, isDone :boolean) {
         try {
-            const response = await axios.put(`${this.url}/todos/${index}`, isDone);
+            const response = await axios.put(`${this.url}/api/todos/${index}`, isDone);
             return response.data;
         } catch (error) {
             console.error(`Error updating todo: ${error}`);
@@ -46,7 +46,7 @@ export default class Api {
 
     public async deleteTodo(index: number) {
         try {
-            const response = await axios.delete(`${this.url}/todos/${index}`);
+            const response = await axios.delete(`${this.url}/api/todos/${index}`);
             return response.data;
         } catch (error) {
             console.error(`Error deleting todo: ${error}`);

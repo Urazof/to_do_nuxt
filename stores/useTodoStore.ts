@@ -8,7 +8,7 @@ export const useTodosStore = defineStore('todoStore', {
     }),
     actions: {
         async getTodos() {
-            // this.todos = await getTodos();
+            this.todos = await getTodos();
         },
 
         async addTodo(todoText: string) {

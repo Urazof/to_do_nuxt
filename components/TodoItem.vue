@@ -2,7 +2,7 @@
   <v-list-item class="todo-item">
     <v-row no-gutters class="todo-row">
       <v-col cols="7">
-        <v-list-item-content>
+        <v-list-item-content class="todo-text">
           <span :class="{ 'done': todo.isDone }">{{ todo.text }}</span>
         </v-list-item-content>
       </v-col>
@@ -31,6 +31,19 @@ export default {
   background: #f9f9f9;
   margin-bottom: 3px;
   border-radius: 4px;
+}
+
+.todo-text {
+  font-size: 18px;
+  overflow: hidden;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.todo-row {
+  display: flex;
+  align-items: center;
 }
 
 .done {
