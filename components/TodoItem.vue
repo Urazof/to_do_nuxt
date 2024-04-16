@@ -52,7 +52,7 @@ export default {
 
 .buttons {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
 }
 
 .done-button {

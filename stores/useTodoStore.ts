@@ -16,7 +16,6 @@ export const useTodosStore = defineStore('todoStore', {
                 text: todoText,
                 isDone: false,
             }
-            this.todos.push(newTodo);
             await createTodo(newTodo);
             await this.getTodos();
         },

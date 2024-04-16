@@ -22,7 +22,7 @@ import  TodoItem  from '../components/TodoItem.vue'
 import { useTodosStore } from '../stores/useTodoStore'
 
 const todosStore = useTodosStore()
-const todos = todosStore.todos
+const todos = computed(() => todosStore.todos);
 const newTodo = ref('')
 
 todosStore.getTodos();
