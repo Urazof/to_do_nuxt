@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import { Todo } from '../types/todo';
 import { createTodo, getTodos, updateTodo, deleteTodo } from "../services/api";
+import { generateUID } from "../helpers/uuid";
 
 export const useTodosStore = defineStore('todoStore', {
     state: () => ({
@@ -13,28 +14,26 @@ export const useTodosStore = defineStore('todoStore', {
 
         async addTodo(todoText: string) {
             const newTodo: Todo = {
-                text: todoText,
+                title: todoText,
+                id: generateUID(),
                 isDone: false,
             }
             await createTodo(newTodo);
             await this.getTodos();
         },
 
-        async removeTodo(index: number) {
-            this.todos.splice(index, 1);
-            await deleteTodo(index);
+        async removeTodo(id: string) {
+            await deleteTodo(id);
             await this.getTodos();
         },
 
-        async markAsDone(index: number) {
-            this.todos[index].isDone = true;
-            await updateTodo(index, true);
+        async markAsDone(id: string) {
+            await updateTodo(id, true);
             await this.getTodos();
         },
 
-        async markAsUndone(index: number) {
-            this.todos[index].isDone = false;
-            await updateTodo(index, false);
+        async markAsUndone(id: string) {
+            await updateTodo(id, false);
             await this.getTodos();
         },
     },

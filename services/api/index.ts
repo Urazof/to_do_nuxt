@@ -35,9 +35,9 @@ export default class Api {
         }
     }
 
-    public async updateTodo(index: number, isDone :boolean) {
+    public async updateTodo(id: string, isDone :boolean) {
         try {
-            const response = await axios.put(`${this.url}api/todos/${index}`, isDone);
+            const response = await axios.put(`${this.url}api/todos/${id}`, isDone);
             return response.data;
         } catch (error) {
             console.error(`Error updating todo: ${error}`);
@@ -45,9 +45,9 @@ export default class Api {
         }
     }
 
-    public async deleteTodo(index: number) {
+    public async deleteTodo(id: string) {
         try {
-            const response = await axios.delete(`${this.url}api/todos/${index}`);
+            const response = await axios.delete(`${this.url}api/todos/${id}`);
             return response.data;
         } catch (error) {
             console.error(`Error deleting todo: ${error}`);
@@ -65,6 +65,6 @@ export const createTodo = (todo: Todo) => Api.getInstance().createTodo(todo);
 
 export const getTodos = () => Api.getInstance().getTodos();
 
-export const updateTodo = (index: number, isDone: boolean) => Api.getInstance().updateTodo(index, isDone);
+export const updateTodo = (id: string, isDone: boolean) => Api.getInstance().updateTodo(id, isDone);
 
-export const deleteTodo = (index: number) => Api.getInstance().deleteTodo(index);
+export const deleteTodo = (id: string) => Api.getInstance().deleteTodo(id);

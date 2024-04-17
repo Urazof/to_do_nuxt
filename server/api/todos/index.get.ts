@@ -1,7 +1,9 @@
-import { todos } from '../../../mocks/todos';
 import Todo from '~/server/models/Todo';
 
-export default defineEventHandler(async () => {
+export default defineEventHandler(async (_event) => {
+    const todos = await Todo.find();
 
-    return todos;
+    return {
+        todos
+    };
 });

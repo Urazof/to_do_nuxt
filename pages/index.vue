@@ -4,13 +4,13 @@
       <v-text-field class="input" hide-details v-model="newTodo" @keyup.enter="addTodo" placeholder="Add new todo"></v-text-field>
       <v-btn class="add-button" small @click="addTodo">Add</v-btn>
     </div>
-    <v-list class="todo-list">
+    <v-list class="todo-list" v-if="todos.length">
       <TodoItem
           v-for="(todo, index) in todos"
           :key="index"
           :todo="todo"
-          @toggleDone="todo.isDone ? markAsUndone(index) : markAsDone(index)"
-          @remove="removeTodo(index)"
+          @toggleDone="todo.isDone ? markAsUndone(id) : markAsDone(id)"
+          @remove="removeTodo(id)"
       />
     </v-list>
   </div>
@@ -31,23 +31,23 @@ const addTodo = () => {
   todosStore.addTodo(newTodo.value)
   newTodo.value = ''
 }
-const removeTodo = (index: number) => {
-  todosStore.removeTodo(index)
+const removeTodo = (id: string) => {
+  todosStore.removeTodo(id)
 }
 
-const markAsDone = (index: number) => {
-  todosStore.markAsDone(index)
+const markAsDone = (id: string) => {
+  todosStore.markAsDone(id)
 }
 
-const markAsUndone = (index: number) => {
-  todosStore.markAsUndone(index)
+const markAsUndone = (id: string) => {
+  todosStore.markAsUndone(id)
 }
 </script>
 
 <style scoped>
 .app {
   width: 100%;
-  max-width: 600px;
+  max-width: 800px;
   margin: 0 auto;
   padding: 20px;
   font-family: Arial, sans-serif;

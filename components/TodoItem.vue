@@ -1,17 +1,17 @@
 <template>
   <v-list-item class="todo-item">
     <v-row no-gutters class="todo-row">
-      <v-col cols="7">
+      <v-col cols="8" class="text-column">
         <v-list-item-content class="todo-text">
-          <span :class="{ 'done': todo.isDone }">{{ todo.text }}</span>
+          <span :class="{ 'done': todo.isDone }">{{ todo.title }}</span>
         </v-list-item-content>
       </v-col>
-      <v-col cols="5" class="text-right">
+      <v-col cols="4" class="text-right">
         <v-list-item-action class="buttons">
-          <v-btn class="done-button" small @click="$emit('toggleDone', todo)" :color="todo.isDone ? 'grey' : 'success'">
+          <v-btn class="done-button" small @click="$emit('toggleDone', todo.id)" :color="todo.isDone ? 'grey' : 'success'">
             {{ todo.isDone ? 'Undone' : 'Done' }}
           </v-btn>
-          <v-btn small @click="$emit('remove', todo)">Remove</v-btn>
+          <v-btn small @click="$emit('remove', todo.id)">Remove</v-btn>
         </v-list-item-action>
       </v-col>
     </v-row>
@@ -35,10 +35,17 @@ export default {
 
 .todo-text {
   font-size: 18px;
-  overflow: hidden;
   text-align: center;
+}
+
+.text-column {
+  overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.text-right {
+  width: 200px;
 }
 
 .todo-row {
