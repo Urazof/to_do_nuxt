@@ -26,7 +26,6 @@ export default class Api {
 
     public async getTodos() {
         try {
-            console.log('getTodos')
             const response = await axios.get(`${this.url}api/todos`);
             return response.data;
         } catch (error) {
@@ -37,7 +36,7 @@ export default class Api {
 
     public async updateTodo(id: string, isDone :boolean) {
         try {
-            const response = await axios.put(`${this.url}api/todos/${id}`, isDone);
+            const response = await axios.put(`${this.url}api/todos/${id}`,{isDone});
             return response.data;
         } catch (error) {
             console.error(`Error updating todo: ${error}`);

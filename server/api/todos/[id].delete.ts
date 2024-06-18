@@ -1,7 +1,9 @@
 import Todo from "../../models/Todo";
 
 export default defineEventHandler(async (event) => {
-    const {id} = await readBody(event);
+    const id = event.context.params?.id
+    debugger;
+
     await Todo.findByIdAndDelete(id)
         .then((doc) => {
             console.log(doc)

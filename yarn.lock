@@ -5222,7 +5222,7 @@ vue-router@^4.1.0, vue-router@^4.2.5:
   dependencies:
     "@vue/devtools-api" "^6.5.0"
 
-"vue@^2.6.14 || ^3.3.0", "vue@^2.7.0 || ^3.2.25", vue@^3.0.0, "vue@^3.0.0-0 || ^2.6.0", vue@^3.2.0, vue@^3.2.25, vue@^3.3.4, vue@^3.3.8, "vue@>=2.7 || >=3", vue@3.3.10:
+"vue@^2.6.14 || ^3.3.0", "vue@^2.7.0 || ^3.2.25", vue@^3.0.0, "vue@^3.0.0-0 || ^2.6.0", vue@^3.2.0, vue@^3.2.25, vue@^3.3.0, vue@^3.3.4, vue@^3.3.8, "vue@>=2.7 || >=3", vue@3.3.10:
   version "3.3.10"
   resolved "https://registry.npmjs.org/vue/-/vue-3.3.10.tgz"
   integrity sha512-zg6SIXZdTBwiqCw/1p+m04VyHjLfwtjwz8N57sPaBhEex31ND0RYECVOC1YrRwMRmxFf5T1dabl6SGUbMKKuVw==
@@ -5233,10 +5233,10 @@ vue-router@^4.1.0, vue-router@^4.2.5:
     "@vue/server-renderer" "3.3.10"
     "@vue/shared" "3.3.10"
 
-vuetify@^3.4.0-beta.1:
-  version "3.4.0-beta.1"
-  resolved "https://registry.npmjs.org/vuetify/-/vuetify-3.4.0-beta.1.tgz"
-  integrity sha512-OWQ5hapHapD32uQ8gTsQBhfaof/3Lm8K7r/YrNLmM2GFLnA+tL5n1uCOQk2tUs7UhzdvgzB28kIR8lQ5SpSFEQ==
+vuetify@^3.6.7:
+  version "3.6.7"
+  resolved "https://registry.npmjs.org/vuetify/-/vuetify-3.6.7.tgz"
+  integrity sha512-oj7zrNbjKFlSS38449K9/ad9mc/o25bxuTFT9rs2AtSNnOA+BOLIVJCAPlmLGWoQGslPh80RzckXDedoifs+TQ==
 
 webidl-conversions@^3.0.0:
   version "3.0.1"

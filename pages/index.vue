@@ -1,47 +1,42 @@
 <template>
   <div class="app">
-    <div class="input-group">
-      <v-text-field class="input" hide-details v-model="newTodo" @keyup.enter="addTodo" placeholder="Add new todo"></v-text-field>
-      <v-btn class="add-button" small @click="addTodo">Add</v-btn>
-    </div>
-    <v-list class="todo-list" v-if="todos.length">
-      <TodoItem
-          v-for="(todo, index) in todos"
-          :key="index"
-          :todo="todo"
-          @toggleDone="todo.isDone ? markAsUndone(id) : markAsDone(id)"
-          @remove="removeTodo(id)"
-      />
-    </v-list>
+    <Input @add-todo="addTodo" />
+    <TodoList
+        @toggle-done="toggleTodo"
+        @remove="removeTodo"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import  TodoItem  from '../components/TodoItem.vue'
-import { useTodosStore } from '../stores/useTodoStore'
+import { computed } from 'vue';
+import Input from '../components/Input.vue';
+import TodoList from '../components/TodoList.vue';
+import { useTodosStore } from '../stores/useTodoStore';
 
-const todosStore = useTodosStore()
-const todos = computed(() => todosStore.todos);
-const newTodo = ref('')
-
+const todosStore = useTodosStore();
 todosStore.getTodos();
 
-const addTodo = () => {
-  todosStore.addTodo(newTodo.value)
-  newTodo.value = ''
-}
+const todos = computed(() => todosStore.todos.todos);
+
+const addTodo = (todo: string) => {
+  todosStore.addTodo(todo);
+};
+
 const removeTodo = (id: string) => {
-  todosStore.removeTodo(id)
-}
+  todosStore.removeTodo(id);
+};
 
-const markAsDone = (id: string) => {
-  todosStore.markAsDone(id)
-}
-
-const markAsUndone = (id: string) => {
-  todosStore.markAsUndone(id)
-}
+const toggleTodo = (id: string) => {
+  const todo = todos.value.find(todo => todo.id === id);
+  if (todo) {
+    if (todo.isDone) {
+      todosStore.markAsUndone(id);
+    } else {
+      todosStore.markAsDone(id);
+    }
+  }
+};
 </script>
 
 <style scoped>
@@ -51,22 +46,5 @@ const markAsUndone = (id: string) => {
   margin: 0 auto;
   padding: 20px;
   font-family: Arial, sans-serif;
-}
-
-.input-group {
-  position: relative;
-  display: flex;
-}
-
-.add-button {
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-.todo-list {
-  width: 100%;
-  list-style: none;
 }
 </style>

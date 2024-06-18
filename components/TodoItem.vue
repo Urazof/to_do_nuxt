@@ -2,28 +2,39 @@
   <v-list-item class="todo-item">
     <v-row no-gutters class="todo-row">
       <v-col cols="8" class="text-column">
-        <v-list-item-content class="todo-text">
+        <v-list-item class="todo-text">
           <span :class="{ 'done': todo.isDone }">{{ todo.title }}</span>
-        </v-list-item-content>
+        </v-list-item>
       </v-col>
       <v-col cols="4" class="text-right">
         <v-list-item-action class="buttons">
-          <v-btn class="done-button" small @click="$emit('toggleDone', todo.id)" :color="todo.isDone ? 'grey' : 'success'">
+          <v-btn class="done-button" small @click="toggleDone" :color="todo.isDone ? 'grey' : 'success'">
             {{ todo.isDone ? 'Undone' : 'Done' }}
           </v-btn>
-          <v-btn small @click="$emit('remove', todo.id)">Remove</v-btn>
+          <v-btn small @click="remove">Remove</v-btn>
         </v-list-item-action>
       </v-col>
     </v-row>
   </v-list-item>
 </template>
 
-<script>
-export default {
-  name: "TodoItem",
-  props: ['todo'],
-  emits: ['toggleDone', 'remove']
+<script setup lang="ts">
+import { defineEmits } from 'vue';
+
+interface Todo {
+  id: string;
+  title: string;
+  isDone: boolean;
 }
+
+const props = defineProps<{ todo: Todo }>();
+const emit = defineEmits<{
+  (e: 'toggleDone', id: string): void;
+  (e: 'remove', id: string): void;
+}>();
+
+const toggleDone = () => emit('toggleDone', props.todo.id);
+const remove = () => emit('remove', props.todo.id);
 </script>
 
 <style scoped>
@@ -35,7 +46,7 @@ export default {
 
 .todo-text {
   font-size: 18px;
-  text-align: center;
+  text-align: left;
 }
 
 .text-column {
@@ -70,4 +81,3 @@ export default {
   text-align: right;
 }
 </style>
-
