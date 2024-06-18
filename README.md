@@ -1,75 +1,74 @@
-# Nuxt 3 Minimal Starter
+# Todo Application
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+A Todo application built with Nuxt 3 and MongoDB running on Docker.
 
-## Setup
+## Prerequisites
 
-Make sure to install the dependencies:
+Before you begin, ensure you have met the following requirements:
 
-```bash
-# npm
-npm install
+- You have installed the latest version of [Node.js](https://nodejs.org/en/download/), [Docker](https://www.docker.com/products/docker-desktop), and [Yarn](https://classic.yarnpkg.com/en/docs/install).
 
-# pnpm
-pnpm install
+## Installing Todo Application
 
-# yarn
-yarn install
+To install Todo Application, follow these steps:
 
-# bun
-bun install
-```
+1. Clone the repository:
+   git clone https://github.com/Urazof/to_do_nuxt.git cd to_do_nuxt
 
-## Development Server
 
-Start the development server on `http://localhost:3000`:
+2. Start MongoDB Docker container:
+   docker run --name todo-mongo -p 27017:27017 -d mongo:latest
 
-```bash
-# npm
-npm run dev
 
-# pnpm
-pnpm run dev
+3. Install dependencies:
+   yarn install
 
-# yarn
-yarn dev
 
-# bun
-bun run dev
-```
+4. Start the application:
+   yarn dev
 
-## Production
 
-Build the application for production:
+## Using Todo Application
 
-```bash
-# npm
-npm run build
+Open your web browser and visit `http://localhost:3000` to start using the Todo Application.
 
-# pnpm
-pnpm run build
+## Project Structure
 
-# yarn
-yarn build
+- `components/`: Contains Vue.js Components.
+- `helpers/`: Contains helpers.
+- `pages/`: Contains Application Views and Routes.
+- `assets/`: Contains un-compiled assets such as images, styles or fonts.
+- `db/`: Contains scripts related to MongoDB database.
 
-# bun
-bun run build
-```
+## Running Tests
 
-Locally preview production build:
+To run tests, execute the following command:
 
-```bash
-# npm
-npm run preview
+yarn test
 
-# pnpm
-pnpm run preview
 
-# yarn
-yarn preview
+## Contributing to Todo Application
 
-# bun
-bun run preview
-```
+To contribute to Todo Application, follow these steps:
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+1. Fork this repository.
+2. Create a branch: `git checkout -b `.
+3. Make your changes and commit them: `git commit -m ''`
+4. Push to the original branch: `git push origin /`
+5. Create the pull request.
+
+## License
+
+This project uses the following license: [MIT](https://choosealicense.com/licenses/mit/).
+
+## Contact
+
+If you want to contact me you can reach me at `https://github.com/Urazof/`.
+
+## Acknowledgements
+
+This project was built using these wonderful technologies:
+
+- [Nuxt.js](https://v3.nuxtjs.org/)
+- [MongoDB](https://www.mongodb.com/)
+- [Docker](https://www.docker.com/)
