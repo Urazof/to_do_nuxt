@@ -20,12 +20,7 @@
 
 <script setup lang="ts">
 import { defineEmits } from 'vue';
-
-interface Todo {
-  id: string;
-  title: string;
-  isDone: boolean;
-}
+import type { Todo } from '@/types/todo';
 
 const props = defineProps<{ todo: Todo }>();
 const emit = defineEmits<{

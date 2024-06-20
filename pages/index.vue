@@ -10,14 +10,14 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import Input from '../components/Input.vue';
-import TodoList from '../components/TodoList.vue';
-import { useTodosStore } from '../stores/useTodoStore';
+import Input from '@/components/Input.vue';
+import TodoList from '@/components/TodoList.vue';
+import { useTodosStore } from '@/stores/useTodoStore';
 
 const todosStore = useTodosStore();
 todosStore.getTodos();
 
-const todos = computed(() => todosStore.todos.todos);
+const todos = computed(() => todosStore.todos);
 
 const addTodo = (todo: string) => {
   todosStore.addTodo(todo);

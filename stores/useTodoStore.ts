@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
-import { Todo } from '../types/todo';
-import { createTodo, getTodos, updateTodo, deleteTodo } from "../services/api";
-import { generateUID } from "../helpers/uuid";
+import type {Todo} from '@/types/todo';
+import { createTodo, getTodos, updateTodo, deleteTodo } from "@/services/api";
+import { generateUID } from "@/helpers/uuid";
 
 export const useTodosStore = defineStore('todoStore', {
     state: () => ({

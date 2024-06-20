@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Todo } from '../../types/todo';
+import type { Todo } from '@/types/todo';
 
 export default class Api {
     private static instance: Api;
