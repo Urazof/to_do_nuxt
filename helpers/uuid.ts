@@ -1,7 +1,9 @@
+import { v4 as uuidv4 } from 'uuid';
+
 export const generateUID = () => {
-    // I generate the UID from two parts here
-    // to ensure the random number provide enough bits.
-    let firstPart = (Math.random() * 46656) | 0;
-    let secondPart = (Math.random() * 46656) | 0;
-    return ("000" + firstPart.toString(36)).slice(-3) + ("000" + secondPart.toString(36)).slice(-3);
-}
+    // Generate a UUID v4, which is a 32-character hexadecimal string
+    const uuid = uuidv4();
+
+    // Convert the UUID to a shorter 24-character hexadecimal string
+    return uuid.replace(/-/g, '').slice(0, 24);
+};

@@ -1,4 +1,4 @@
-import Todo from "@/server/models/Todo";
+import Todo from '@/server/models/Todo';
 
 export default defineEventHandler(async (event) => {
     const { title, id, isDone } = await readBody(event);

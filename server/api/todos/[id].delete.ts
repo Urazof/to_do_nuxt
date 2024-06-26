@@ -1,10 +1,11 @@
-import Todo from "@/server/models/Todo";
-
+import Todo from '@/server/models/Todo';
+import { Types } from 'mongoose';
 export default defineEventHandler(async (event) => {
     const id = event.context.params?.id
-    debugger;
+    // const articleId = new Types.ObjectId(event.context.params?.id);
+    // console.log(articleId);
 
-    await Todo.findByIdAndDelete(id)
+    Todo.findOneAndDelete({id: id})
         .then((doc) => {
             console.log(doc)
         })
