@@ -13,7 +13,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useTodosStore } from '@/stores/useTodoStore';
-import TodoItem from './TodoItem.vue';
+import TodoItem from '@/components/TodoItem.vue';
 
 const todosStore = useTodosStore();
 const todos = computed(() => todosStore.todos.todos);

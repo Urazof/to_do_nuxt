@@ -17,7 +17,7 @@ import { useTodosStore } from '@/stores/useTodoStore';
 const todosStore = useTodosStore();
 todosStore.getTodos();
 
-const todos = computed(() => todosStore.todos);
+const todos = computed(() => todosStore.todos.todos);
 
 const addTodo = (todo: string) => {
   todosStore.addTodo(todo);
@@ -28,6 +28,7 @@ const removeTodo = (id: string) => {
 };
 
 const toggleTodo = (id: string) => {
+  console.log(id)
   const todo = todos.value.find(todo => todo.id === id);
   if (todo) {
     if (todo.isDone) {
