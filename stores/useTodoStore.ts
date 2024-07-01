@@ -9,7 +9,6 @@ export const useTodosStore = defineStore('todoStore', {
     }),
     actions: {
         async getTodos() {
-            console.log('getTodos');
             this.todos = await getTodos();
         },
 

@@ -27,7 +27,7 @@ export default class Api {
     public async getTodos() {
         try {
             const response = await axios.get(`${this.url}api/todos`);
-            return response.data;
+            return response.data.todos;
         } catch (error) {
             console.error(`Error getting todos: ${error}`);
             throw error;

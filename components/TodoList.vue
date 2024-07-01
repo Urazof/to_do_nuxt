@@ -16,7 +16,7 @@ import { useTodosStore } from '@/stores/useTodoStore';
 import TodoItem from '@/components/TodoItem.vue';
 
 const todosStore = useTodosStore();
-const todos = computed(() => todosStore.todos.todos);
+const todos = computed(() => todosStore.todos);
 
 const emit = defineEmits(['toggle-done', 'remove']);
 

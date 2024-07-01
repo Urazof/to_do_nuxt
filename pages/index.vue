@@ -17,7 +17,7 @@ import { useTodosStore } from '@/stores/useTodoStore';
 const todosStore = useTodosStore();
 todosStore.getTodos();
 
-const todos = computed(() => todosStore.todos.todos);
+const todos = computed(() => todosStore.todos);
 
 const addTodo = (todo: string) => {
   todosStore.addTodo(todo);
