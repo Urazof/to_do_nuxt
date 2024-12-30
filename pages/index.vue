@@ -28,7 +28,6 @@ const removeTodo = (id: string) => {
 };
 
 const toggleTodo = (id: string) => {
-  console.log(id)
   const todo = todos.value.find(todo => todo.id === id);
   if (todo) {
     if (todo.isDone) {

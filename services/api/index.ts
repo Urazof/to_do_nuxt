@@ -19,8 +19,9 @@ export default class Api {
             const response = await axios.post(`${this.url}api/todos`, todo);
             return response.data;
         } catch (error) {
-            console.error(`Error creating todo: ${error}`);
-            throw error;
+            const message = `Error creating todo: ${(error as Error).message}`;
+            console.error(message);
+            throw new Error(message);
         }
     }
 

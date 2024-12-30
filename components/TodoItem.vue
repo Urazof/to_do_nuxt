@@ -11,7 +11,7 @@
           <v-btn class="done-button" small @click="toggleDone" :color="todo.isDone ? 'grey' : 'success'">
             {{ todo.isDone ? 'Undone' : 'Done' }}
           </v-btn>
-          <v-btn small @click="remove">Remove</v-btn>
+          <v-btn class="remove-button" small @click="remove">Remove</v-btn>
         </v-list-item-action>
       </v-col>
     </v-row>
@@ -52,6 +52,7 @@ const remove = () => emit('remove', props.todo.id);
 
 .text-right {
   width: 200px;
+  text-align: right;
 }
 
 .todo-row {
@@ -70,9 +71,5 @@ const remove = () => emit('remove', props.todo.id);
 
 .done-button {
   margin-right: 5px;
-}
-
-.text-right {
-  text-align: right;
 }
 </style>

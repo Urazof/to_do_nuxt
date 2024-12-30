@@ -7,18 +7,27 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",
+    "@types/jsdom": "^21.1.7",
     "@types/uuid": "^10.0.0",
+    "@vue/test-utils": "^2.4.6",
+    "axios-mock-adapter": "^2.0.0",
+    "jsdom": "^25.0.0",
     "nuxt": "^3.8.2",
+    "vitest": "^2.0.5",
     "vue": "^3.3.8",
     "vue-router": "^4.2.5"
   },
   "dependencies": {
+    "@nuxt/test-utils": "^3.15.1",
     "@pinia/nuxt": "^0.5.1",
-    "axios": "^1.6.5",
+    "@vitejs/plugin-vue": "^5.2.1",
+    "axios": "^1.7.7",
     "mongoose": "^8.3.1",
     "pinia": "^2.1.7",
     "sass": "^1.69.5",
