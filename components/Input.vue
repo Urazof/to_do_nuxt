@@ -5,7 +5,7 @@
         hide-details
         v-model="newTodo"
         @keyup.enter="onAddTodo"
-        placeholder="Add new todo"
+        placeholder="Add a new todo"
     ></v-text-field>
     <v-btn class="add-button" small @click="onAddTodo">Add</v-btn>
   </div>

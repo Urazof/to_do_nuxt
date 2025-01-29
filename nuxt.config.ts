@@ -22,4 +22,6 @@ export default defineNuxtConfig({
   runtimeConfig: {
     mongodbUri: process.env.MONGODB_URI,
   },
+
+  compatibilityDate: '2024-12-30',
 })

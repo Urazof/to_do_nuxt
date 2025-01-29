@@ -9,11 +9,17 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "test:e2e:headed": "playwright test --headed",
+    "test:e2e:debug": "playwright test --debug",
+    "test:e2e:ui": "playwright test --ui"
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",
+    "@playwright/test": "^1.49.1",
     "@types/jsdom": "^21.1.7",
+    "@types/node": "^22.10.2",
     "@types/uuid": "^10.0.0",
     "@vue/test-utils": "^2.4.6",
     "axios-mock-adapter": "^2.0.0",
