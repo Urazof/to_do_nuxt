@@ -8,28 +8,22 @@ export const useAuthStore = defineStore('auth', {
     loggedIn: false
   }),
   actions: {
-    async login(credentials: {email: string, password: string}) {
-      try {
-        await loginUser(credentials);
-        this.user = { email: credentials.email, password: '' };
-        this.loggedIn = true;
-        return navigateTo('/');
-      } catch (error) {
-        throw error;
-      }
+    async login(credentials: { email: string; password: string }) {
+      await loginUser(credentials);
+      this.user = { 
+        email: credentials.email,
+        password: credentials.password
+      };
+      this.loggedIn = true;
+      return navigateTo('/');
     },
-    async register(credentials: {email: string, password: string}) {
-      try {
-        await registerUser(credentials);
-        this.user = { email: credentials.email, password: '' };
-        return navigateTo('/login');
-      } catch (error) {
-        throw error;
-      }
+    async register(credentials: { email: string; password: string }) {
+      await registerUser(credentials);
+      return navigateTo('/login');
     },
     logout() {
       this.user = null;
       this.loggedIn = false;
     }
   }
-})
+});
