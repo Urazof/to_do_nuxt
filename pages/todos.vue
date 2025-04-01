@@ -1,24 +1,30 @@
 <template>
-  <div class="todo-list">
+  <div class="todos">
+    <div class="d-flex justify-end mb-4">
+      <v-btn @click="logout" color="error" variant="outlined" size="small">
+        Logout
+      </v-btn>
+    </div>
     <Input @add-todo="addTodo"/>
     <TodoList
         @toggle-done="toggleTodo"
         @remove="removeTodo"
     />
   </div>
-
 </template>
 
 <script setup lang="ts">
-import {computed} from 'vue';
+import { computed } from 'vue';
 import Input from '@/components/Input.vue';
 import TodoList from '@/components/TodoList.vue';
-import {useTodosStore} from '@/stores/useTodoStore';
-import {useAuthStore} from '@/stores/useAuthStore';
+import { useTodosStore } from '@/stores/useTodoStore';
+import { useAuthStore } from '@/stores/useAuthStore';
 
 const authStore = useAuthStore();
 const todosStore = useTodosStore();
 todosStore.getTodos();
+
+const logout = () => authStore.logout();
 
 const todos = computed(() => todosStore.todos);
 
@@ -43,7 +49,7 @@ const toggleTodo = (id: string) => {
 </script>
 
 <style scoped>
-.todo-list {
+.todos{
   width: 100%;
   max-width: 800px;
   margin: 0 auto;

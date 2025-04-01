@@ -15,7 +15,7 @@ export const useAuthStore = defineStore('auth', {
         password: credentials.password
       };
       this.loggedIn = true;
-      return navigateTo('/');
+      return navigateTo('/todos');
     },
     async register(credentials: { email: string; password: string }) {
       await registerUser(credentials);
@@ -24,6 +24,7 @@ export const useAuthStore = defineStore('auth', {
     logout() {
       this.user = null;
       this.loggedIn = false;
+      return navigateTo('/');
     }
   }
 });
