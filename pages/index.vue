@@ -1,14 +1,13 @@
 <template>
   <div class="app">
     <div class="login-bar" >
-      <v-spacer></v-spacer>
-      <v-btn v-if="authStore.loggedIn" @click="authStore.logout()" color="error">Logout</v-btn>
+      <v-btn v-if="authStore.loggedIn" @click="authStore.logout()">Logout</v-btn>
       <template v-else>
         <v-btn to="/login" text>Login</v-btn>
         <v-btn to="/register" text>Register</v-btn>
       </template>
     </div>
-    <div class="application-wrapper blur-effect">
+    <div class="application-wrapper" :class="{ 'blur-effect': !authStore.loggedIn}">
       <Input @add-todo="addTodo" />
       <TodoList
         @toggle-done="toggleTodo"

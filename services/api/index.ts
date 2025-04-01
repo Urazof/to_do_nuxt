@@ -3,7 +3,6 @@ import type { Todo } from '@/types/todo';
 
 export default class Api {
     private static instance: Api;
-
     url: string;
 
     constructor(baseUrl: string) {
@@ -14,6 +13,7 @@ export default class Api {
         return Api.instance || (Api.instance = new Api(baseUrl || ''));
     }
 
+    // TodoItems methods
     public async createTodo(todo: Todo) {
         try {
             const response = await axios.post(`${this.url}api/todos`, todo);
@@ -35,9 +35,9 @@ export default class Api {
         }
     }
 
-    public async updateTodo(id: string, isDone :boolean) {
+    public async updateTodo(id: string, isDone: boolean) {
         try {
-            const response = await axios.put(`${this.url}api/todos/${id}`,{isDone});
+            const response = await axios.put(`${this.url}api/todos/${id}`, {isDone});
             return response.data;
         } catch (error) {
             console.error(`Error updating todo: ${error}`);
@@ -55,16 +55,42 @@ export default class Api {
         }
     }
 
+    // Auth methods
+    public async login(credentials: {email: string, password: string}) {
+        try {
+            const response = await axios.post(`${this.url}api/auth/login`, credentials);
+            return response.data;
+        } catch (error) {
+            const message = `Login failed: ${(error as Error).message}`;
+            console.error(message);
+            throw new Error(message);
+        }
+    }
+
+    public async register(credentials: {email: string, password: string}) {
+        try {
+            const response = await axios.post(`${this.url}api/auth/register`, credentials);
+            return response.data;
+        } catch (error) {
+            const message = `Registration failed: ${(error as Error).message}`;
+            console.error(message);
+            throw new Error(message);
+        }
+    }
 }
 
 export function initApi(controllerLocation: string) {
     Api.getInstance(controllerLocation);
 }
 
+// TodoItems exports
 export const createTodo = (todo: Todo) => Api.getInstance().createTodo(todo);
-
 export const getTodos = () => Api.getInstance().getTodos();
-
 export const updateTodo = (id: string, isDone: boolean) => Api.getInstance().updateTodo(id, isDone);
-
 export const deleteTodo = (id: string) => Api.getInstance().deleteTodo(id);
+
+// Auth exports
+export const loginUser = (credentials: {email: string, password: string}) => 
+    Api.getInstance().login(credentials);
+export const registerUser = (credentials: {email: string, password: string}) => 
+    Api.getInstance().register(credentials);
