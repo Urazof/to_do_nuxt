@@ -1,18 +1,19 @@
-interface User {
-  email: string
-  password: string
+import mongoose from 'mongoose'
+import bcrypt from 'bcrypt'
+
+const userSchema = new mongoose.Schema({
+  email: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+}, { timestamps: true })
+
+userSchema.pre('save', async function (next) {
+  if (!this.isModified('password')) return next()
+  this.password = await bcrypt.hash(this.password, 10)
+  next()
+})
+
+userSchema.methods.comparePassword = function (password: string) {
+  return bcrypt.compare(password, this.password)
 }
 
-const users: User[] = []
-
-export const createUser = (user: User) => {
-  if (users.some(u => u.email === user.email)) {
-    throw new Error('Email already registered')
-  }
-  users.push(user)
-  return user
-}
-
-export const findUserByEmail = (email: string) => {
-  return users.find(u => u.email === email)
-}
+export const User = mongoose.models.User || mongoose.model('User', userSchema)

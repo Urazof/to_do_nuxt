@@ -17,6 +17,7 @@ export const useTodosStore = defineStore('todoStore', {
                 title: todoText,
                 id: generateUID(),
                 isDone: false,
+                userId: localStorage.getItem('userId')
             }
             await createTodo(newTodo);
             await this.getTodos();
