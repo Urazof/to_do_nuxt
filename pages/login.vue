@@ -1,7 +1,7 @@
 <template>
   <div class="auth-container">
     <h1 class="text-h4 text-center mb-8">Login</h1>
-    <LoginForm @submit="handleLogin" />
+    <LoginForm @submit="handleLogin" :error="authStore.error" />
   </div>
 </template>
 

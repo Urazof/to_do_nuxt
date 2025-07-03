@@ -5,21 +5,32 @@ import { loginUser, registerUser } from '@/services/api';
 export const useAuthStore = defineStore('auth', {
   state: () => ({
     user: null as User | null,
-    loggedIn: false
+    loggedIn: false,
+    error: null as string | null
   }),
   actions: {
     async login(credentials: { email: string; password: string }) {
-      const { userId } = await loginUser(credentials);
-      this.user = { 
-        id: userId,
-        email: credentials.email,
-      };
-      this.loggedIn = true;
-      return navigateTo('/todos');
+      this.error = null;
+      try {
+        const { userId } = await loginUser(credentials);
+        this.user = { 
+          id: userId,
+          email: credentials.email,
+        };
+        this.loggedIn = true;
+        return navigateTo('/todos');
+      } catch (error: any) {
+        this.error = error?.message || 'Login failed. Please check your credentials.';
+        throw error;
+      }
     },
     async register(credentials: { email: string; password: string }) {
-      await registerUser(credentials);
-      return navigateTo('/login');
+      try {
+        await registerUser(credentials);
+        return navigateTo('/login');
+      } catch (error: any) {
+        throw new Error(error?.message || 'Registration failed. Please try again.');
+      }
     },
     logout() {
       this.user = null;

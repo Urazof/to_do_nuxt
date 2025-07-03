@@ -62,8 +62,13 @@ export default class Api {
         try {
             const response = await axios.post(`${this.url}api/auth/login`, credentials);
             return response.data;
-        } catch (error) {
-            const message = `Login failed: ${(error as Error).message}`;
+        } catch (error: any) {
+            let message = 'Login failed';
+            if (error.response?.data?.message) {
+                message = error.response.data.message;
+            } else if (error.message) {
+                message = error.message;
+            }
             console.error(message);
             throw new Error(message);
         }
@@ -73,8 +78,13 @@ export default class Api {
         try {
             const response = await axios.post(`${this.url}api/auth/register`, credentials);
             return response.data;
-        } catch (error) {
-            const message = `Registration failed: ${(error as Error).message}`;
+        } catch (error: any) {
+            let message = 'Registration failed';
+            if (error.response?.data?.message) {
+                message = error.response.data.message;
+            } else if (error.message) {
+                message = error.message;
+            }
             console.error(message);
             throw new Error(message);
         }
