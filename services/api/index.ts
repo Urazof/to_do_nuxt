@@ -62,13 +62,8 @@ export default class Api {
         try {
             const response = await axios.post(`${this.url}api/auth/login`, credentials);
             return response.data;
-        } catch (error: any) {
-            let message = 'Login failed';
-            if (error.response?.data?.message) {
-                message = error.response.data.message;
-            } else if (error.message) {
-                message = error.message;
-            }
+        } catch (error) {
+            const message = `Login failed: ${(error as Error).message}`;
             console.error(message);
             throw new Error(message);
         }
@@ -78,13 +73,8 @@ export default class Api {
         try {
             const response = await axios.post(`${this.url}api/auth/register`, credentials);
             return response.data;
-        } catch (error: any) {
-            let message = 'Registration failed';
-            if (error.response?.data?.message) {
-                message = error.response.data.message;
-            } else if (error.message) {
-                message = error.message;
-            }
+        } catch (error) {
+            const message = `Registration failed: ${(error as Error).message}`;
             console.error(message);
             throw new Error(message);
         }
@@ -102,7 +92,7 @@ export const updateTodo = (id: string, isDone: boolean) => Api.getInstance().upd
 export const deleteTodo = (id: string) => Api.getInstance().deleteTodo(id);
 
 // Auth exports
-export const loginUser = (credentials: {email: string, password: string}) => 
+export const loginUser = (credentials: {email: string, password: string}) =>
     Api.getInstance().login(credentials);
-export const registerUser = (credentials: {email: string, password: string}) => 
+export const registerUser = (credentials: {email: string, password: string}) =>
     Api.getInstance().register(credentials);

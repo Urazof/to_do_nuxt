@@ -20,19 +20,22 @@ export const useAuthStore = defineStore('auth', {
         this.loggedIn = true;
         return navigateTo('/todos');
       } catch (error: any) {
-        this.error = error?.message || 'Login failed. Please check your credentials.';
-        throw error;
+        this.error = (error as Error)?.message || 'Login failed. Please check your credentials.';
+        throw new Error(this.error)
       }
     },
     async register(credentials: { email: string; password: string }) {
+      this.error = null;
       try {
         await registerUser(credentials);
         return navigateTo('/login');
       } catch (error: any) {
-        throw new Error(error?.message || 'Registration failed. Please try again.');
+        this.error = (error as Error)?.message || 'Register failed. Please check your credentials.';
+        throw new Error(this.error)
       }
     },
     logout() {
+      this.error = null;
       this.user = null;
       this.loggedIn = false;
       return navigateTo('/');

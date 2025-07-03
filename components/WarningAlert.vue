@@ -1,9 +1,8 @@
 <template>
   <div 
     v-if="visible"
-    class="warning-alert"
+    class="warning-alert top"
     :class="[typeClass, { 'with-button': showButton }]"
-    :style="{ top: `${position.top}px`, left: `${position.left}px` }"
   >
     <div class="alert-content">
       <span class="alert-message">{{ message }}</span>
@@ -19,7 +18,6 @@ const props = defineProps({
   message: { type: String, required: true },
   type: { type: String, default: 'error' }, // 'error', 'warning', 'success'
   timeout: { type: Number, default: 5000 }, // milliseconds
-  position: { type: Object, default: () => ({ top: 20, left: '50%' }) },
   showButton: { type: Boolean, default: true }
 })
 
@@ -64,12 +62,18 @@ onBeforeUnmount(() => {
 .warning-alert {
   position: fixed;
   z-index: 1000;
-  transform: translateX(-50%);
   padding: 15px 20px;
   border-radius: 4px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  max-width: 400px;
+  max-width: 80%;
+  width: auto;
   transition: opacity 0.3s ease;
+}
+
+.top {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .alert-content {
