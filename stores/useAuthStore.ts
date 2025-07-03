@@ -9,10 +9,10 @@ export const useAuthStore = defineStore('auth', {
   }),
   actions: {
     async login(credentials: { email: string; password: string }) {
-      await loginUser(credentials);
+      const { userId } = await loginUser(credentials);
       this.user = { 
+        id: userId,
         email: credentials.email,
-        password: credentials.password
       };
       this.loggedIn = true;
       return navigateTo('/todos');

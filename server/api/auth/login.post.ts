@@ -9,5 +9,5 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 401, message: 'Invalid credentials' })
   }
 
-  return { userId: user._id }
+  return { userId: user._id.toString() }
 })

@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 import type { Todo } from '@/types/todo';
 import { createTodo, getTodos, updateTodo, deleteTodo } from "@/services/api";
 import { generateUID } from "@/helpers/uuid";
+import { useAuthStore } from '@/stores/useAuthStore';
 
 export const useTodosStore = defineStore('todoStore', {
     state: () => ({
@@ -9,18 +10,24 @@ export const useTodosStore = defineStore('todoStore', {
     }),
     actions: {
         async getTodos() {
-            this.todos = await getTodos();
+            const authStore = useAuthStore();
+            if (authStore.user) {
+                this.todos = await getTodos(authStore.user.id as string);
+            }
         },
 
         async addTodo(todoText: string) {
-            const newTodo: Todo = {
-                title: todoText,
-                id: generateUID(),
-                isDone: false,
-                userId: localStorage.getItem('userId')
+            const authStore = useAuthStore();
+            if (authStore.user) {
+                const newTodo: Todo = {
+                    title: todoText,
+                    id: generateUID(),
+                    isDone: false,
+                    userId: authStore.user.id as string
+                }
+                await createTodo(newTodo);
+                await this.getTodos();
             }
-            await createTodo(newTodo);
-            await this.getTodos();
         },
 
         async removeTodo(id: string) {
