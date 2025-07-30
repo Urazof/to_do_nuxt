@@ -20,7 +20,7 @@ export const useAuthStore = defineStore('auth', {
         this.loggedIn = true;
         return navigateTo('/todos');
       } catch (error: any) {
-        this.error = (error as Error)?.message || 'Login failed. Please check your credentials.';
+        this.error = 'Login failed. Please check your credentials.';
         throw new Error(this.error)
       }
     },
@@ -30,7 +30,7 @@ export const useAuthStore = defineStore('auth', {
         await registerUser(credentials);
         return navigateTo('/login');
       } catch (error: any) {
-        this.error = (error as Error)?.message || 'Register failed. Please check your credentials.';
+        this.error = 'Register failed. User already exist';
         throw new Error(this.error)
       }
     },

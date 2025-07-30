@@ -71,9 +71,9 @@ onBeforeUnmount(() => {
 }
 
 .top {
-  top: 50%;
+  top: 20px;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translateX(-50%);
 }
 
 .alert-content {

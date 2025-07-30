@@ -24,6 +24,7 @@
         v-model="confirmPassword"
         label="Confirm Password"
         type="password"
+        :rules="[v => v === password || 'Passwords do not match']"
         required
         outlined
         class="mb-4"
@@ -55,11 +56,11 @@ const email = ref('')
 const password = ref('')
 const confirmPassword = ref('')
 
-const emit = defineEmits(['submit']);
+const emit = defineEmits(['submit', 'error']);
 
 const handleSubmit = async () => {
   if (password.value !== confirmPassword.value) {
-    alert('Passwords do not match');
+    emit('error', 'Passwords do not match');
     return;
   }
 
