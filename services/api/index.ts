@@ -13,10 +13,16 @@ export default class Api {
         return Api.instance || (Api.instance = new Api(baseUrl || ''));
     }
 
+    private getAuthHeader(token: string | null) {
+        return token ? { Authorization: `Bearer ${token}` } : {};
+    }
+
     // TodoItems methods
-    public async createTodo(todo: Todo) {
+    public async createTodo(todo: Todo, token: string | null) {
         try {
-            const response = await axios.post(`${this.url}api/todos`, todo);
+            const response = await axios.post(`${this.url}api/todos`, todo, {
+                headers: this.getAuthHeader(token)
+            });
             return response.data;
         } catch (error) {
             const message = `Error creating todo: ${(error as Error).message}`;
@@ -25,10 +31,11 @@ export default class Api {
         }
     }
 
-    public async getTodos(userId: string) {
+    public async getTodos(userId: string, token: string | null) {
         try {
             const response = await axios.get(`${this.url}api/todos`, {
-                params: { userId }
+                params: { userId },
+                headers: this.getAuthHeader(token)
             });
             return response.data.todos;
         } catch (error) {
@@ -37,9 +44,11 @@ export default class Api {
         }
     }
 
-    public async updateTodo(id: string, isDone: boolean) {
+    public async updateTodo(id: string, isDone: boolean, token: string | null) {
         try {
-            const response = await axios.put(`${this.url}api/todos/${id}`, {isDone});
+            const response = await axios.put(`${this.url}api/todos/${id}`, {isDone}, {
+                headers: this.getAuthHeader(token)
+            });
             return response.data;
         } catch (error) {
             console.error(`Error updating todo: ${error}`);
@@ -47,9 +56,11 @@ export default class Api {
         }
     }
 
-    public async deleteTodo(id: string) {
+    public async deleteTodo(id: string, token: string | null) {
         try {
-            const response = await axios.delete(`${this.url}api/todos/${id}`);
+            const response = await axios.delete(`${this.url}api/todos/${id}`, {
+                headers: this.getAuthHeader(token)
+            });
             return response.data;
         } catch (error) {
             console.error(`Error deleting todo: ${error}`);
@@ -57,7 +68,7 @@ export default class Api {
         }
     }
 
-    // Auth methods
+    // Auth methods (не требуют токена)
     public async login(credentials: {email: string, password: string}) {
         try {
             const response = await axios.post(`${this.url}api/auth/login`, credentials);
@@ -86,10 +97,10 @@ export function initApi(controllerLocation: string) {
 }
 
 // TodoItems exports
-export const createTodo = (todo: Todo) => Api.getInstance().createTodo(todo);
-export const getTodos = (userId: string) => Api.getInstance().getTodos(userId);
-export const updateTodo = (id: string, isDone: boolean) => Api.getInstance().updateTodo(id, isDone);
-export const deleteTodo = (id: string) => Api.getInstance().deleteTodo(id);
+export const createTodo = (todo: Todo, token: string | null) => Api.getInstance().createTodo(todo, token);
+export const getTodos = (userId: string, token: string | null) => Api.getInstance().getTodos(userId, token);
+export const updateTodo = (id: string, isDone: boolean, token: string | null) => Api.getInstance().updateTodo(id, isDone, token);
+export const deleteTodo = (id: string, token: string | null) => Api.getInstance().deleteTodo(id, token);
 
 // Auth exports
 export const loginUser = (credentials: {email: string, password: string}) =>
