@@ -1,5 +1,5 @@
 import { User } from '@/server/models/User'
-import { generateTokens } from '@/server/utils/jwt'
+import { generateTokens, getRefreshTokenMaxAge } from '@/server/utils/jwt'
 
 /**
  * POST /api/auth/register
@@ -42,11 +42,19 @@ export default defineEventHandler(async (event) => {
   // Генерация токенов
   const tokens = generateTokens(user._id.toString())
 
-  return { 
+  // Установка refresh token в httpOnly cookie
+  setCookie(event, 'refreshToken', tokens.refreshToken, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'strict',
+    maxAge: getRefreshTokenMaxAge(),
+    path: '/'
+  })
+
+  return {
     message: 'User created successfully',
     userId: user._id.toString(),
     accessToken: tokens.accessToken,
-    refreshToken: tokens.refreshToken,
     expiresIn: tokens.expiresIn
   }
 })

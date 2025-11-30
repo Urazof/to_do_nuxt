@@ -97,3 +97,10 @@ function parseExpiration(expiration: string): number {
   }
 }
 
+/**
+ * Получить maxAge для refresh token cookie в секундах
+ */
+export function getRefreshTokenMaxAge(): number {
+  return parseExpiration(REFRESH_TOKEN_EXPIRES)
+}
+

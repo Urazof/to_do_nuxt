@@ -1,21 +1,20 @@
-import { verifyRefreshToken, generateTokens } from '@/server/utils/jwt'
+import { verifyRefreshToken, generateTokens, getRefreshTokenMaxAge } from '@/server/utils/jwt'
 
 /**
  * POST /api/auth/refresh
- * Обновление access токена с помощью refresh токена
+ * Обновление access токена с помощью refresh токена из cookie
  *
- * Body: { refreshToken: string }
- * Returns: { accessToken, refreshToken, expiresIn }
+ * Returns: { accessToken, expiresIn }
  */
 export default defineEventHandler(async (event) => {
-  const body = await readBody(event)
-  const { refreshToken } = body
+  // Получаем refresh token из cookie
+  const refreshToken = getCookie(event, 'refreshToken')
 
   // Валидация входных данных
   if (!refreshToken) {
     throw createError({
-      statusCode: 400,
-      message: 'Refresh token is required'
+      statusCode: 401,
+      message: 'Refresh token not found'
     })
   }
 
@@ -25,9 +24,17 @@ export default defineEventHandler(async (event) => {
   // Генерация новой пары токенов
   const tokens = generateTokens(payload.userId)
 
+  // Обновляем refresh token в cookie
+  setCookie(event, 'refreshToken', tokens.refreshToken, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'strict',
+    maxAge: getRefreshTokenMaxAge(),
+    path: '/'
+  })
+
   return {
     accessToken: tokens.accessToken,
-    refreshToken: tokens.refreshToken,
     expiresIn: tokens.expiresIn
   }
 })

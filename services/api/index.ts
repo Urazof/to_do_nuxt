@@ -1,108 +1,64 @@
-import axios from 'axios';
-import type { Todo } from '@/types/todo';
+import type { Todo } from '@/types/todo'
+import { useAuth } from '@/composables/useAuth'
 
-export default class Api {
-    private static instance: Api;
-    url: string;
+/**
+ * API Service - работа с backend API
+ * Использует axios instance из useAuth() с автоматическим управлением токенами
+ */
 
-    constructor(baseUrl: string) {
-        this.url = baseUrl;
-    }
-
-    public static getInstance(baseUrl: string | undefined = undefined) {
-        return Api.instance || (Api.instance = new Api(baseUrl || ''));
-    }
-
-    private getAuthHeader(token: string | null) {
-        return token ? { Authorization: `Bearer ${token}` } : {};
-    }
-
-    // TodoItems methods
-    public async createTodo(todo: Todo, token: string | null) {
-        try {
-            const response = await axios.post(`${this.url}api/todos`, todo, {
-                headers: this.getAuthHeader(token)
-            });
-            return response.data;
-        } catch (error) {
-            const message = `Error creating todo: ${(error as Error).message}`;
-            console.error(message);
-            throw new Error(message);
-        }
-    }
-
-    public async getTodos(token: string | null) {
-        try {
-            const response = await axios.get(`${this.url}api/todos`, {
-                headers: this.getAuthHeader(token)
-            });
-            return response.data.todos;
-        } catch (error) {
-            console.error(`Error getting todos: ${error}`);
-            throw error;
-        }
-    }
-
-    public async updateTodo(id: string, isDone: boolean, token: string | null) {
-        try {
-            const response = await axios.put(`${this.url}api/todos/${id}`, {isDone}, {
-                headers: this.getAuthHeader(token)
-            });
-            return response.data;
-        } catch (error) {
-            console.error(`Error updating todo: ${error}`);
-            throw error;
-        }
-    }
-
-    public async deleteTodo(id: string, token: string | null) {
-        try {
-            const response = await axios.delete(`${this.url}api/todos/${id}`, {
-                headers: this.getAuthHeader(token)
-            });
-            return response.data;
-        } catch (error) {
-            console.error(`Error deleting todo: ${error}`);
-            throw error;
-        }
-    }
-
-    // Auth methods (не требуют токена)
-    public async login(credentials: {email: string, password: string}) {
-        try {
-            const response = await axios.post(`${this.url}api/auth/login`, credentials);
-            return response.data;
-        } catch (error) {
-            const message = `Login failed: ${(error as Error).message}`;
-            console.error(message);
-            throw new Error(message);
-        }
-    }
-
-    public async register(credentials: {email: string, password: string}) {
-        try {
-            const response = await axios.post(`${this.url}api/auth/register`, credentials);
-            return response.data;
-        } catch (error) {
-            const message = `Registration failed: ${(error as Error).message}`;
-            console.error(message);
-            throw new Error(message);
-        }
-    }
+/**
+ * Получить API client с автоматическим добавлением токена
+ */
+const getApiClient = () => {
+  const { apiClient } = useAuth()
+  return apiClient
 }
 
-export function initApi(controllerLocation: string) {
-    Api.getInstance(controllerLocation);
+/**
+ * TodoItems API
+ */
+export const createTodo = async (todo: Todo) => {
+  try {
+    const client = getApiClient()
+    const response = await client.post('/todos', todo)
+    return response.data
+  } catch (error) {
+    const message = `Error creating todo: ${(error as Error).message}`
+    console.error(message)
+    throw new Error(message)
+  }
 }
 
-// TodoItems exports
-export const createTodo = (todo: Todo, token: string | null) => Api.getInstance().createTodo(todo, token);
-export const getTodos = (token: string | null) => Api.getInstance().getTodos(token);
-export const updateTodo = (id: string, isDone: boolean, token: string | null) => Api.getInstance().updateTodo(id, isDone, token);
-export const deleteTodo = (id: string, token: string | null) => Api.getInstance().deleteTodo(id, token);
+export const getTodos = async () => {
+  try {
+    const client = getApiClient()
+    const response = await client.get('/todos')
+    return response.data.todos
+  } catch (error) {
+    console.error(`Error getting todos: ${error}`)
+    throw error
+  }
+}
 
-// Auth exports
-export const loginUser = (credentials: {email: string, password: string}) =>
-    Api.getInstance().login(credentials);
-export const registerUser = (credentials: {email: string, password: string}) =>
-    Api.getInstance().register(credentials);
+export const updateTodo = async (id: string, isDone: boolean) => {
+  try {
+    const client = getApiClient()
+    const response = await client.put(`/todos/${id}`, { isDone })
+    return response.data
+  } catch (error) {
+    console.error(`Error updating todo: ${error}`)
+    throw error
+  }
+}
+
+export const deleteTodo = async (id: string) => {
+  try {
+    const client = getApiClient()
+    const response = await client.delete(`/todos/${id}`)
+    return response.data
+  } catch (error) {
+    console.error(`Error deleting todo: ${error}`)
+    throw error
+  }
+}
+
