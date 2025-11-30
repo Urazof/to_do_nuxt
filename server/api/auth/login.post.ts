@@ -1,27 +1,50 @@
 import { User } from '@/server/models/User'
-import jwt from 'jsonwebtoken'
+import { generateTokens } from '@/server/utils/jwt'
 
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key'
-const JWT_EXPIRES_IN = '1h'
-
+/**
+ * POST /api/auth/login
+ * Аутентификация пользователя
+ *
+ * Body: { email: string, password: string }
+ * Returns: { userId, accessToken, refreshToken, expiresIn }
+ */
 export default defineEventHandler(async (event) => {
   const body = await readBody(event)
   const { email, password } = body
 
-  const user = await User.findOne({ email })
-  if (!user || !(await user.comparePassword(password))) {
-    throw createError({ statusCode: 401, message: 'Invalid credentials' })
+  // Валидация входных данных
+  if (!email || !password) {
+    throw createError({
+      statusCode: 400,
+      message: 'Email and password are required'
+    })
   }
 
-  const token = jwt.sign(
-    { userId: user._id.toString() },
-    JWT_SECRET,
-    { expiresIn: JWT_EXPIRES_IN }
-  )
+  // Поиск пользователя
+  const user = await User.findOne({ email })
+  if (!user) {
+    throw createError({
+      statusCode: 401,
+      message: 'Invalid credentials'
+    })
+  }
+
+  // Проверка пароля
+  const isPasswordValid = await user.comparePassword(password)
+  if (!isPasswordValid) {
+    throw createError({
+      statusCode: 401,
+      message: 'Invalid credentials'
+    })
+  }
+
+  // Генерация токенов
+  const tokens = generateTokens(user._id.toString())
 
   return { 
     userId: user._id.toString(),
-    token,
-    expiresIn: 3600 // 1 hour in seconds
+    accessToken: tokens.accessToken,
+    refreshToken: tokens.refreshToken,
+    expiresIn: tokens.expiresIn
   }
 })

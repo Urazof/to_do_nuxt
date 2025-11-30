@@ -1,29 +1,52 @@
 import { User } from '@/server/models/User'
-import jwt from 'jsonwebtoken'
+import { generateTokens } from '@/server/utils/jwt'
 
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key'
-const JWT_EXPIRES_IN = '1h'
-
+/**
+ * POST /api/auth/register
+ * Регистрация нового пользователя
+ *
+ * Body: { email: string, password: string }
+ * Returns: { message, userId, accessToken, refreshToken, expiresIn }
+ */
 export default defineEventHandler(async (event) => {
   const body = await readBody(event)
   const { email, password } = body
 
-  const existing = await User.findOne({ email })
-  if (existing) {
-    throw createError({ statusCode: 400, message: 'Email already exists' })
+  // Валидация входных данных
+  if (!email || !password) {
+    throw createError({
+      statusCode: 400,
+      message: 'Email and password are required'
+    })
   }
 
+  if (password.length < 6) {
+    throw createError({
+      statusCode: 400,
+      message: 'Password must be at least 6 characters'
+    })
+  }
+
+  // Проверка существующего пользователя
+  const existing = await User.findOne({ email })
+  if (existing) {
+    throw createError({
+      statusCode: 400,
+      message: 'Email already exists'
+    })
+  }
+
+  // Создание пользователя (пароль хешируется в pre-save хуке модели)
   const user = await User.create({ email, password })
-  const token = jwt.sign(
-    { userId: user._id.toString() },
-    JWT_SECRET,
-    { expiresIn: JWT_EXPIRES_IN }
-  )
+
+  // Генерация токенов
+  const tokens = generateTokens(user._id.toString())
 
   return { 
-    message: 'User created',
+    message: 'User created successfully',
     userId: user._id.toString(),
-    token,
-    expiresIn: 3600 // 1 hour in seconds
+    accessToken: tokens.accessToken,
+    refreshToken: tokens.refreshToken,
+    expiresIn: tokens.expiresIn
   }
 })
