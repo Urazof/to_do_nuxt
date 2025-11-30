@@ -14,7 +14,7 @@
         v-model="password"
         label="Password"
         type="password"
-        :rules="[v => v.length >= 3 || 'Min 3 characters']"
+        :rules="[v => v.length >= 6 || 'Min 6 characters']"
         required
         outlined
         class="mb-4"

@@ -15,12 +15,9 @@ export default defineNuxtConfig({
     transpile: ["vuetify"],
   },
 
-  nitro: {
-    plugins: ['~/server/index.ts'],
-  },
 
   runtimeConfig: {
-    mongodbUri: process.env.MONGODB_URI,
+    mongodbUri: process.env.MONGODB_URI || 'mongodb://localhost:27017/todo_nuxt'
   },
 
   compatibilityDate: '2024-12-30',
