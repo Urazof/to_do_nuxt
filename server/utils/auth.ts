@@ -37,7 +37,10 @@ export async function requireAuth(event: any) {
   // Верифицируем токен
   const payload = verifyAccessToken(token)
 
-  // Возвращаем payload с userId
+  // ВАЖНО: Прикрепляем userId к event.context для доступа в handlers
+  event.context.userId = payload.userId
+
+  // Возвращаем payload с userId (для обратной совместимости)
   return {
     userId: payload.userId
   }

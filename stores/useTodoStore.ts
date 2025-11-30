@@ -12,7 +12,7 @@ export const useTodosStore = defineStore('todoStore', {
         async getTodos() {
             const authStore = useAuthStore();
             if (authStore.user) {
-                this.todos = await getTodos(authStore.user.id as string, authStore.token);
+                this.todos = await getTodos(authStore.token);
             }
         },
 
@@ -22,8 +22,7 @@ export const useTodosStore = defineStore('todoStore', {
                 const newTodo: Todo = {
                     title: todoText,
                     id: generateUID(),
-                    isDone: false,
-                    userId: authStore.user.id as string
+                    isDone: false
                 }
                 await createTodo(newTodo, authStore.token);
                 await this.getTodos();

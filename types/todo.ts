@@ -2,7 +2,7 @@ export interface Todo {
     title: string;
     id: string;
     isDone: boolean;
-    userId: string;
+    userId?: string; // Опционально - устанавливается сервером из JWT токена
     createdAt?: Date;
     updatedAt?: Date;
 }

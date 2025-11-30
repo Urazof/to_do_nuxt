@@ -1,14 +1,14 @@
 import Todo from '@/server/models/Todo';
-import { getQuery } from 'h3';
+import { requireAuth } from '@/server/utils/auth';
 
 export default defineEventHandler(async (event) => {
-    const query = getQuery(event);
-    const userId = query.userId;
-    
-    if (!userId) {
-        return createError({ statusCode: 400, message: 'Missing userId parameter' });
-    }
+    // Проверяем JWT токен и получаем userId
+    await requireAuth(event);
 
+    // userId теперь доступен в event.context (безопасно, из токена)
+    const userId = event.context.userId;
+
+    // Получаем все задачи текущего пользователя
     const todos = await Todo.find({ userId });
 
     return {

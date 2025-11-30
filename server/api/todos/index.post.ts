@@ -1,18 +1,25 @@
 import Todo from '@/server/models/Todo';
+import { requireAuth } from '@/server/utils/auth';
 
 export default defineEventHandler(async (event) => {
-    const { title,id, isDone, userId } = await readBody(event);
+    // Проверяем JWT токен и получаем userId
+    await requireAuth(event);
 
-    if (!title || !userId) {
-        throw createError({ statusCode: 400, message: 'Missing title or userId' });
+    // userId теперь доступен в event.context (безопасно, из токена)
+    const userId = event.context.userId;
+
+    const { title, id, isDone } = await readBody(event);
+
+    if (!title) {
+        throw createError({ statusCode: 400, message: 'Missing title' });
     }
 
     try {
         const todo = new Todo({
             id,
             title,
-            isDone: isDone,
-            userId
+            isDone: isDone || false,
+            userId // Используем userId из токена, а не из body
         });
         
         const savedTodo = await todo.save();

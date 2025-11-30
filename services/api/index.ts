@@ -31,10 +31,9 @@ export default class Api {
         }
     }
 
-    public async getTodos(userId: string, token: string | null) {
+    public async getTodos(token: string | null) {
         try {
             const response = await axios.get(`${this.url}api/todos`, {
-                params: { userId },
                 headers: this.getAuthHeader(token)
             });
             return response.data.todos;
@@ -98,7 +97,7 @@ export function initApi(controllerLocation: string) {
 
 // TodoItems exports
 export const createTodo = (todo: Todo, token: string | null) => Api.getInstance().createTodo(todo, token);
-export const getTodos = (userId: string, token: string | null) => Api.getInstance().getTodos(userId, token);
+export const getTodos = (token: string | null) => Api.getInstance().getTodos(token);
 export const updateTodo = (id: string, isDone: boolean, token: string | null) => Api.getInstance().updateTodo(id, isDone, token);
 export const deleteTodo = (id: string, token: string | null) => Api.getInstance().deleteTodo(id, token);
 
